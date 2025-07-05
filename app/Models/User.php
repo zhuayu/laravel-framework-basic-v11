@@ -18,13 +18,22 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'email',
         'unionid',
+        'phone_prefix',
         'phone',
+        'name',
+        'account',
         'password',
-        'nickname',
-        'realname',
+        'avatar_url',
+        'config',
+        'extra',
         'visited_at',
+        'disabled',
+    ];
+
+    protected $casts = [
+        'config' => 'json',
+        'extra' => 'json',
     ];
 
     /**

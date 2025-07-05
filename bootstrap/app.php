@@ -22,10 +22,16 @@ return Application::configure(basePath: dirname(__DIR__))
             Route::prefix('api/admin')
                 ->namespace('App\Http\Controllers\Api\Admin')
                 ->group(base_path('routes/api_admin.php'));
+
+            Route::prefix('api/admin')
+                ->namespace('App\Http\Controllers\Api\Serve')
+                ->group(base_path('routes/api_serve.php'));
         }
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        $middleware->alias([
+            'auth' => \App\Http\Middleware\Authenticate::class,  // 添加这行注册 'auth' 别名
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->render(function (\Throwable $e, $request) {

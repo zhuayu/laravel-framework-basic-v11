@@ -13,6 +13,11 @@ return [
     |
     */
 
+    'jwt' => [
+        'secret' => env('JWT_SECRET', 'password'),
+        'expired' => env('JWT_EXPIERD_DAYS', 1),
+    ],
+
     'defaults' => [
         'guard' => env('AUTH_GUARD', 'web'),
         'passwords' => env('AUTH_PASSWORD_BROKER', 'users'),
@@ -37,7 +42,7 @@ return [
 
     'guards' => [
         'web' => [
-            'driver' => 'session',
+            'driver' => 'web-token',
             'provider' => 'users',
         ],
     ],
@@ -62,7 +67,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\User::class),
+            'model' => App\Models\User::class,
         ],
 
         // 'users' => [
