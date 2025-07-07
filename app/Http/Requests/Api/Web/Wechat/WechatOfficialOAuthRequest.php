@@ -9,7 +9,6 @@ class WechatOfficialOAuthRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'platform' => 'required|string',
             'redirect_uri' => 'required|string',
         ];
     }

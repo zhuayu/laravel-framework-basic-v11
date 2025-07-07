@@ -9,16 +9,14 @@ use App\Http\Requests\Api\Web\Wechat\WechatWebOAuthRequest;
 
 class WechatWebController extends Controller
 {
-        public function oauth(WechatWebOAuthRequest $request, $id) {
-
+    public function oauth(WechatWebOAuthRequest $request, $id) {
+        // 记录请求参数
         $params = $request->all();
         $logger = fileLogger('wechat', 'web-oauth');
         $logger->info('request all: ' . json_encode($params));
-        
+
+        // 通过 code 获取用户信息
         $data = $request->validated();
-        $redirect_uri = $data['redirect_uri'];
-        $platform = $data['platform'];
-        
         $wechatApp = WechatApp::findOrFail($id);
         $app = new Application([
             'app_id' => $wechatApp->app_id,
@@ -26,12 +24,13 @@ class WechatWebController extends Controller
             'oauth' => [
                 'scopes'   => ['snsapi_login'],
             ],
-            'redirect_uri' => $request->redirect_uri
+            'redirect_uri' => $data['redirect_uri']
         ]);
         $oauth = $app->getOAuth();
         $authUser = $oauth->userFromCode($request->code);;
         $logger->info('auth user: ' . json_encode($authUser));
 
+         // 记录用户信息并生成用户
         $unionid = $authUser['raw']['unionid'];
         $openid = $authUser['raw']['openid'];
         WechatAppUser::updateOrCreate([
@@ -48,6 +47,7 @@ class WechatWebController extends Controller
             $user = User::create(['unionid' => $unionid]);
         }
 
-        return $this->loginResponse($platform, $user, 1, $redirect_uri);
+        // 登录并重定向到目标页面
+        return $this->loginResponse('web', $user, 1, $data['redirect_uri']);
     }
 }

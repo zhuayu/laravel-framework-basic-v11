@@ -10,10 +10,7 @@ use App\Http\Requests\Api\Web\Wechat\WechatMiniProgramOAuthRequest;
 class WechatMiniProgramController extends Controller
 {
     public function oauth(WechatMiniProgramOAuthRequest $request, $id) {
-
-        $logger = fileLogger('wechat', 'miniprogram-oauth');
         $data = $request->validated();
-
         $wechatApp = WechatApp::findOrFail($id);
         $app =  new Application([
             'app_id' => $wechatApp->app_id,
@@ -23,14 +20,18 @@ class WechatMiniProgramController extends Controller
         ]);
 
         try {
-            // 获取 session 信息
+            // 获取 session 用户信息
             $session = $app->getClient()->get('/sns/jscode2session', [
                 'appid' => $app->getConfig()['app_id'],
                 'secret' => $app->getConfig()['secret'],
                 'js_code' => $data['code'],
                 'grant_type'
             ])->toArray();
-            $logger->info('微信 session：' . json_encode($session));
+            $logger = fileLogger('wechat', 'miniprogram-oauth');
+            $logger->info('session：' . json_encode($session));
+
+
+            // 用户注册
             WechatAppUser::updateOrCreate([
                 'app_id' => $id,
                 'openid' => $session['openid'],
@@ -38,7 +39,6 @@ class WechatMiniProgramController extends Controller
                 "unionid" => $session['unionid'],
                 "session_key" => $session['session_key'],
             ]);
-
             $user = User::where(['unionid' => $session['unionid']])->first();
             if (!$user) {
                 $user = User::create($session['unionid']);
@@ -46,6 +46,7 @@ class WechatMiniProgramController extends Controller
                 $user->update(['visited_at' => Carbon::now()]);
             }
 
+            // 手动生成 Token 返回小程序客户端
             $token = JWT::login($user, 'miniprogram', 1);
             return $this->success([
                 'userInfo' => $user,
@@ -57,6 +58,7 @@ class WechatMiniProgramController extends Controller
         }
     }
 
+    // 微信手机号码授权
     public function getPhone(WechatMiniProgramOAuthRequest $request, $id)
     {
         $data = $request->validated();

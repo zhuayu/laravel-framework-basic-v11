@@ -14,10 +14,10 @@ return new class extends Migration
     Schema::create('users', function (Blueprint $table) {
         $table->bigIncrements('id');
         $table->string('unionid')->nullable()->unique()->comment('微信 unionid');
-        $table->string('phone_prefix')->nullable()->unique()->comment('电话');
+        $table->string('phone_prefix')->nullable()->comment('电话');
         $table->string('phone')->nullable()->unique()->comment('电话');
         $table->string('name')->nullable()->comment('昵称');
-        $table->string('account')->nullable()->unique();
+        $table->string('account')->nullable()->unique()->comment('帐户');;
         $table->string('password')->nullable()->comment('密码');
         $table->string('avatar_url')->nullable()->comment('用户图像url');
         $table->json('config')->nullable()->comment('配置信息');
@@ -46,8 +46,8 @@ return new class extends Migration
     Schema::create('wechat_app_users', function (Blueprint $table) {
         $table->bigIncrements('id');
         $table->unsignedBigInteger('app_id');
-        $table->string('openid')->comment('OpenID');
-        $table->string('unionid')->nullable()->comment('UnionID');
+        $table->string('openid')->comment('openid');
+        $table->string('unionid')->nullable()->comment('unionid');
         $table->string('nickname')->nullable()->comment('昵称');
         $table->string('gender')->nullable()->comment('性别 1:男 2:女 0:未知');
         $table->string('country')->nullable()->comment('国家');

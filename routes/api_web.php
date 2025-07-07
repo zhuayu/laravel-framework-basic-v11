@@ -8,12 +8,11 @@ use App\Http\Controllers\Api\Web\Wechat\WechatWebController;
 use App\Http\Controllers\Api\Web\Wechat\WechatMiniprogramController;
 use App\Http\Controllers\Api\Web\Wechat\WechatOfficialController;
 
-Route::post('/user/login-by-account', [UserController::class, 'loginByAccount']);
 Route::post('/user/login-by-phone', [UserController::class, 'loginByPhone']);
 Route::post('/user/login-send-sms', [UserController::class, 'loginSendSMS']);
 
 Route::get('/wechat/app/:id/web/oauth', [WechatWebController::class, 'oauth']);
-Route::get('/wechat/app/:id/miniprogram/oauth', [WechatMiniprogramController::class, 'h5OAuth']);
+Route::get('/wechat/app/:id/miniprogram/oauth', [WechatMiniprogramController::class, 'oauth']);
 Route::get('/wechat/app/:id/miniprogram/phone', [WechatMiniprogramController::class, 'getphone']);
 
 Route::get('/wechat/app/:id/official/oauth', [WechatOfficialController::class, 'oauth']);
@@ -26,5 +25,7 @@ Route::post('/wechat/app/:id/official/message-callback', [WechatOfficialControll
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/user/user-info', [UserController::class, 'userInfo']);
+    Route::post('/user/bind-account', [UserController::class, 'bindAccount']);
+    Route::post('/user/bind-phone', [UserController::class, 'bindPhone']);
 });
 

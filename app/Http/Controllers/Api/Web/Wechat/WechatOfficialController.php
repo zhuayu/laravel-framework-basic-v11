@@ -36,7 +36,7 @@ class WechatOfficialController extends Controller
         $openid = $authUser['id'];
         $unionid = $authUser['raw']['unionid'];
 
-        // 存在用户没有关注公众号，不能通过 openid 获取用户详情的情况，需要手动传人 userInfo 信息
+        // 存在用户没有关注公众号，不能通过 openid 获取用户详情的情况
         $logger->info('auth user: ' . json_encode($authUser));
         $logger->info('user original info: ' . json_encode($authUser['raw']));
 
@@ -48,7 +48,6 @@ class WechatOfficialController extends Controller
         ]);
 
         $user = User::firstWhere(['unionid' => $unionid]);
-
         if (!$user) {
             $user = User::create($userInfo['unionid']);
         } else {
