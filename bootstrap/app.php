@@ -31,6 +31,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
             'auth' => \App\Http\Middleware\Authenticate::class,  // 添加这行注册 'auth' 别名
+            'AdminPermission' => \App\Http\Middleware\AdminPermission::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

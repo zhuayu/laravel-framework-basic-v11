@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use App\Utils\JWT;
 use App\Models\User;
+use App\Models\Permission\Administrator;
 use Illuminate\Support\Str;
 use Auth;
 
@@ -39,6 +40,24 @@ class AppServiceProvider extends ServiceProvider
             }
 
             return User::find($decode->sub);
+        });
+
+        Auth::viaRequest('admin-token', function ($request) {
+            $jwt = ($token = $request->header('Authorization'))
+                ? Str::replaceFirst('Bearer ', '', $token)
+                : $request->cookie('token');
+
+            if (!$jwt) {
+                return null;
+            }
+
+            $decode = Jwt::decode($jwt);
+
+            if (!$decode) {
+                return null;
+            }
+
+            return Administrator::find($decode->sub);
         });
     }
 }

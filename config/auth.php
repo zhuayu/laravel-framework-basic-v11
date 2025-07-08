@@ -45,6 +45,10 @@ return [
             'driver' => 'web-token',
             'provider' => 'users',
         ],
+        'admin' => [
+            'driver' => 'admin-token',
+            'provider' => 'users',
+        ],
     ],
 
     /*
@@ -69,11 +73,10 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'administrators' => [
+            'driver' => 'eloquent',
+            'table' =>  App\Models\Permission\Administrator::class,
+        ],
     ],
 
     /*
