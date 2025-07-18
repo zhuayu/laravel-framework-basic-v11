@@ -11,6 +11,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-
+        if (app()->environment() !== 'local') {
+            die('只允许在本地环境运行');
+        }
+        $this->call(PermissionsSeeder::class);
+        $this->call(AdministratorsSeeder::class);
+        // $this->call(WechatAppSeeder::class);
     }
 }

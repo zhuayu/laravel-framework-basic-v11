@@ -17,7 +17,7 @@ use Auth;
 class UserController extends Controller
 {
     public function userInfo() {
-        $user = Auth::id();
+        $user = Auth::user();
         return $this->success($user);
     }
 
