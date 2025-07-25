@@ -5,7 +5,6 @@ use App\Models\User;
 use App\Models\Gain\GainRule;
 use App\Models\Gain\GainUser;
 use App\Models\Gain\GainUserHistory;
-use App\Services\Feishu\WebhookService;
 use DB;
 
 class GainBase {
@@ -113,8 +112,6 @@ class GainBase {
         } catch (\Exception $e) {
             DB::rollBack();
             \Log::error("添加货币/积分失败:" . $e->getMessage());
-            $webhookService = new WebhookService();
-            $webhookService->devNotification("添加货币/积分失败:" . $e->getMessage(), $e->getTraceAsString());
         }
     }
 }
