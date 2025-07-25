@@ -42,6 +42,15 @@ class PermissionsSeeder extends Seeder
                         ['name' => 'vip-user-history-index', 'display_name' => '会员-充值记录']
                     ]
                 ],
+
+                [
+                    'name' => 'mark-manage',
+                    'display_name' => '积分管理',
+                    'permissions' => [
+                        ['name' => 'gain-user-index', 'display_name' => '积分-列表'],
+                        ['name' => 'gain-user-store', 'display_name' => '积分-添加'],
+                    ]
+                ],
             ]
         ]
     ];

@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\Admin\Permission\PermissionController;
 use App\Http\Controllers\Api\Admin\Vip\VipUserController;
 use App\Http\Controllers\Api\Admin\Vip\VipSkuController;
 use App\Http\Controllers\Api\Admin\Vip\VipUserHistoryController;
+use App\Http\Controllers\Api\Admin\Gain\GainUserHistoryController;
 
 
 Route::post('/user/login-by-phone', [AuthController::class, 'loginByPhone']);
@@ -32,4 +33,8 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::post('/vip/user', [VipUserController::class, 'store'])->middleware('AdminPermission:vip-user-store');
     Route::get('/vip/skus', [VipSkuController::class, 'index'])->middleware('AdminPermission:vip-user-history-index');
     Route::get('/vip/histories', [VipUserHistoryControlle::class, 'index'])->middleware('AdminPermission:vip-user-history-index');
+    //积分管理
+    Route::get('/gain/user-history', [GainUserHistoryController::class, 'index'])->middleware('AdminPermission:gain-user-index');
+    Route::post('/gain/user-store', [GainUserHistoryController::class, 'store'])->middleware('AdminPermission:gain-user-store');
+    Route::post('/gain/user-consume', [GainUserHistoryController::class, 'consume'])->middleware('AdminPermission:gain-user-store');
 });
