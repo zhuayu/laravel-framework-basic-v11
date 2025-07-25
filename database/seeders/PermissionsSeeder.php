@@ -18,7 +18,7 @@ class PermissionsSeeder extends Seeder
             'display_name' => '管理中心',
             'groups' => [
                 [
-                    'name' => 'auth-manage',
+                    'name' => 'permission-manage',
                     'display_name' => '权限管理',
                     'permissions' => [
                         ['name' => 'permissions-index', 'display_name' => '权限-所有权限'],
@@ -31,6 +31,15 @@ class PermissionsSeeder extends Seeder
                         ['name' => 'administrators-store', 'display_name' => '管理员-添加'],
                         ['name' => 'administrators-update', 'display_name' => '管理员-编辑'],
                         ['name' => 'administrators-delete', 'display_name' => '管理员-删除']
+                    ]
+                ],
+                [
+                    'name' => 'vip-manage',
+                    'display_name' => '会员管理',
+                    'permissions' => [
+                        ['name' => 'vip-user-index', 'display_name' => '会员-列表'],
+                        ['name' => 'vip-user-store', 'display_name' => '会员-增加/减少'],
+                        ['name' => 'vip-user-history-index', 'display_name' => '会员-充值记录']
                     ]
                 ],
             ]

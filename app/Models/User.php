@@ -25,6 +25,8 @@ class User extends Authenticatable
         'account',
         'password',
         'avatar_url',
+        'vip_slug',
+        'vip_expired',
         'config',
         'extra',
         'visited_at',
