@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\Web\Org\OrgDepartmentController;
 use App\Http\Controllers\Api\Web\Org\OrgGroupController;
 use App\Http\Controllers\Api\Web\Org\OrgGroupUserController;
 use App\Http\Controllers\Api\Web\Org\OrgDepartmentUserController;
+use App\Http\Controllers\Api\Web\NotificationController;
 
 Route::post('/user/login-by-account', [UserController::class, 'loginByAccount']);
 Route::post('/user/login-by-phone', [UserController::class, 'loginByPhone']);
@@ -33,6 +34,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/user/user-info', [UserController::class, 'userInfo']);
     Route::post('/user/bind-account', [UserController::class, 'bindAccount']);
     Route::post('/user/bind-phone', [UserController::class, 'bindPhone']);
+
+    // 通知
+    Route::get('/notifications', [NotificationController::class, 'index']);
+    Route::get('/notifications/count', [NotificationController::class, 'count']);
+    Route::get('/notifications/count-by-names', [NotificationController::class, 'countByNames']);
+    Route::put('/notifications/readAll', [NotificationController::class, 'readAll']);
+    Route::get('/notifications/{id}', [NotificationController::class, 'show']);
+    Route::put('/notifications/{id}', [NotificationController::class, 'update']);
 
     // 组织/部门/群组
     Route::get('organizations', [OrganizationController::class, 'index']);
